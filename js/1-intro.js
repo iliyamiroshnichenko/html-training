@@ -1,24 +1,40 @@
-// Метод setTimeout
+// const promise = new Promise((resolve, reject) => {
+//   const success = Math.random() > 0.5;
+//   setTimeout(() => {
+//     if (success) {
+//       resolve("Success");
+//     }
+//     reject("Error");
+//   }, 1500);
+// });
 
-const log = () => {
-  console.log("Лог при вызове колбека произойдет через 3 секунды");
-};
+// let isLoading = false;
+// isLoading = true;
 
-// Асинхронность кода
-// console.log("before");
-// setTimeout(log, 3000);
-// console.log("after");
+// promise
+//   .then((result) => {
+//     console.log(`%c${result}`, "color:green; font-size: 24px");
+//   })
+//   .catch((error) => console.log(`%c${error}`, "color:red; font-size: 24px"))
+//   .finally(() => {
+//     isLoading = false;
+//   });
 
-// Очистка таймаута clearTimeout()
-const logger = (time) => {
-  console.log(`Лог через ${time}ms, потому что не отменили таймаут`);
-};
+// Chaining
+const promise = new Promise((resolve) => {
+  resolve(5);
+});
 
-const timerId = setTimeout(logger, 2000, 2000);
-
-const shouldCancelTimer = Math.random() > 0.3;
-
-console.log(shouldCancelTimer);
-if (shouldCancelTimer) {
-  clearTimeout(timerId);
-}
+promise
+  .then((x) => {
+    console.log("x: ", x);
+    return x * 2;
+  })
+  .then((y) => {
+    console.log("y: ", y);
+    return y + 50;
+  })
+  .then((z) => {
+    console.log("z: ", z);
+  })
+  .catch((error) => console.log(error));

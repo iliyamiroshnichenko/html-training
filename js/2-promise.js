@@ -1,22 +1,45 @@
-// Метод setInterval()
-const logger = (time) => {
-  console.log(`Лог каждые ${time}ms - ${Date.now()}`);
+const fetchUser = (userName) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const success = Math.random() > 0.5;
+      if (success) {
+        const user = { name: userName, age: 32, posts: 41 };
+        resolve(user);
+      }
+      const error = "Произошла ошибка :(";
+      reject(error);
+    }, 1000);
+  });
 };
 
-// setInterval(logger, 3000, 3000);
+// fetchUser("Mango").then(onFetchUserSuccess).catch(onFetchUserError);
 
-//Очитска интервала с clearInterval()
-let subscriptionCounter = 0;
-let hasSubscribed = false;
+function onFetchUserSuccess(user) {
+  console.log(user);
+}
 
-const intervalId = setInterval(() => {
-  if (subscriptionCounter === 3 || hasSubscribed) {
-    console.log("Останавливаем интервал");
-    clearInterval(intervalId);
-    return;
-  }
+function onFetchUserError(error) {
+  console.log(`%c${error}`, "color: red; font-size: 16px;");
+}
 
-  console.log("Subscribe, please!");
-  //   hasSubscribed = true;
-  subscriptionCounter += 1;
-}, 1000);
+const fetchToDo = (id) => {
+  return fetch(`https://jsonplaceholder.typicode.com/todos/${id}`).then((res) =>
+    res.json()
+  );
+};
+
+fetchToDo(2)
+  .then((todo) => console.log(todo))
+  .catch(console.log);
+
+const makepromise = (delay) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(delay);
+    }, delay);
+  });
+};
+// makepromise(4000).then(console.log);
+// makepromise(2000).then(console.log);
+// makepromise(1000).then(console.log);
+// makepromise(5000).then(console.log);

@@ -1,31 +1,48 @@
-// Показываем и скрываем добавляя/удаляя класс
-// Скрываем через определенное время
-// Скрываем при клике
-// Не забываем чистить таймер
+const horses = [
+  "Secretariat",
+  "Eclipse",
+  "West Australian",
+  "Flying Fox",
+  "Seabiscuit",
+];
 
-const refs = {
-  notification: document.querySelector(".js-notification"),
+const getRandom = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-let timeoutId = null;
+const run = (horse) => {
+  return new Promise((resolve) => {
+    const time = getRandom(1000, 2500);
+    setTimeout(() => {
+      resolve({ horse, time });
+    }, time);
+  });
+};
 
-refs.notification.addEventListener("click", notificationClickHandler);
+// run(horses[0]).then((result) => {
+//   console.log(result);
+// });
 
-showNotification();
+console.log(
+  `%c Заезд начался, ставки не принимаются`,
+  "color: brown; font-size: 16px;"
+);
+const promises = horses.map(run);
+// console.log(promises);
 
-function notificationClickHandler() {
-  clearTimeout(timeoutId);
-  hideNotification();
-}
-function showNotification() {
-  refs.notification.classList.add("is-visible");
-  timeoutId = setTimeout(() => {
+Promise.race(promises).then(({ horse, time }) => {
+  console.log(
+    `%c 🎉 Победил ${horse}, финишировав за ${time} времени`,
+    "color: green; font-size: 16px;"
+  );
+});
+
+Promise.all(promises)
+  .then((results) => {
     console.log(
-      "Сейчас буду вызывать hideNotification в колбеке от setTimeout"
+      "%c 📝 Заезд окончен, принимаются ставки.",
+      "color: blue; font-size: 16px;"
     );
-    hideNotification();
-  }, 3000);
-}
-function hideNotification() {
-  refs.notification.classList.remove("is-visible");
-}
+    console.table(results);
+  })
+  .catch(console.log);
