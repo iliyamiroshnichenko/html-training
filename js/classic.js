@@ -10,7 +10,6 @@ function onControlsClick(event) {
 
   if (event.target.nodeName !== "A") return;
 
-  const controlItem = event.target;
   const currentActiveControlItem = refs.controls.querySelector(
     ".controls__item--active"
   );
@@ -21,6 +20,8 @@ function onControlsClick(event) {
     const pane = getPaneById(paneId);
     pane.classList.remove("pane--active");
   }
+
+  const controlItem = event.target;
   controlItem.classList.add("controls__item--active");
 
   const paneId = getPaneId(controlItem);
